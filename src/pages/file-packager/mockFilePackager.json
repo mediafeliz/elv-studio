@@ -1,0 +1,110 @@
+{
+    "title_metadata": {
+        "scheme": "eidr-x",
+        "title": "Demo Movie",
+        "identifier": "5D76-5856-DB50-895C-DA44-5",
+        "partner_alias": "sphe",
+        "distributor": "Columbia Pictures",
+        "release_date": "1981-06-26",
+        "country_of_origin": "US",
+        "original_spoken_locale": "en-US"
+    },
+    "files_only_data": [
+        {
+            "file_type": "audio",
+            "file_name": "Demo_Some_Title_031970_Audio_FR.mov",
+            "locale": "fr-FR",
+            "is_dubbed": true,
+            "track_of": "[source] Demo_Some_Title_031970_Feature_en-US_1920x1080_51.mov",
+            "audio": "5.1 + 2.0"
+        },
+        {
+            "file_type": "source",
+            "file_name": "Demo_Some_Title_031970_Feature_en-US_1920x1080_51.mov",
+            "locale": "en-US",
+            "resolution": "1920x1080",
+            "audio": "5.1 + 2.0"
+        },
+        {
+            "file_type": "preview",
+            "file_name": "Demo_Some_Title_031970_Preview_en-US_1920x1080_51.mov",
+            "locale": "en-US",
+            "resolution": "1920x1080",
+            "audio": "5.1 + 2.0"
+        },
+        {
+            "file_type": "subtitle",
+            "file_name": "Demo_Some_Title_031970_Feature_Full_fr-FR.itt",
+            "locale": "fr-FR"
+        }
+    ],
+    "localizations": [
+        {
+            "locale": "fr-FR",
+            "title": "Demo Movie",
+            "genres": [
+                "av_genre_comedy"
+            ],
+            "summary_190": "Demo Movie est une parodie ludique...",
+            "copyright": "1981 Columbia Pictures Industries, Inc. All Rights Reserved."
+        },
+        {
+            "locale": "en-US",
+            "title": "Demo Movie",
+            "genres": [
+                "av_genre_comedy"
+            ],
+            "summary_190": "Demo Movie is a playful parody...",
+            "copyright": "1981 Columbia Pictures Industries, Inc. All Rights Reserved."
+        }
+    ],
+    "ratings": [
+        {
+            "country": "BR",
+            "rating": "16"
+        },
+        {
+            "country": "FR",
+            "rating": "12"
+        }
+    ],
+    "release_dates": [
+        {
+            "country": "FR",
+            "type": "Theatrical",
+            "date": "1981-06-26"
+        },
+        {
+            "country": "US",
+            "type": "Theatrical",
+            "date": "1981-06-26"
+        }
+    ],
+    "people": [
+        {
+            "job": "Actor",
+            "character": "Mike Sanders",
+            "display_name": "James Marlowe"
+        },
+        {
+            "job": "Actor",
+            "character": "Jessica Hart",
+            "display_name": "Lila Vance"
+        },
+        {
+            "job": "Director",
+            "character": "Director Ava Lee",
+            "display_name": "Sophia Lorenz"
+        },
+        {
+            "job": "Producer",
+            "character": "",
+            "display_name": "Theo Clarkson"
+        },
+        {
+            "job": "Writer",
+            "character": "",
+            "display_name": "Harper Eliot"
+        }
+    ]
+}
