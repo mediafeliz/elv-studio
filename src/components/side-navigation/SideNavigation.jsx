@@ -6,7 +6,7 @@ import {CubePlusIcon, JobsIcon, PackagerIcon} from "@/assets/icons/index.jsx";
 const NAV_LINKS = [
   {path: "/new", icon: <CubePlusIcon />, label: "Create"},
   {path: "/jobs", icon: <JobsIcon />, label: "Jobs"},
-  { path: "/file-packager", icon: <PackagerIcon />, label: "Packager"},
+  { path: "/packager", icon: <PackagerIcon />, label: "Packager"},
 ];
 
 const SideNavigation = () => {
