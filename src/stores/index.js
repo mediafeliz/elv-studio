@@ -3,6 +3,8 @@ import {FrameClient} from "@eluvio/elv-client-js/src/FrameClient";
 import IngestStore from "@/stores/IngestStore";
 import TenantStore from "@/stores/TenantStore.js";
 import UiStore from "@/stores/UiStore.js";
+import PackagerStore from "@/stores/PackagerStore.js";
+
 
 // Force strict mode so mutations are only allowed within actions.
 configure({
@@ -25,6 +27,7 @@ class RootStore {
     this.ingestStore = new IngestStore(this);
     this.tenantStore = new TenantStore(this);
     this.uiStore = new UiStore(this);
+    this.packagerStore = new PackagerStore(this);
   }
 
   Initialize = flow(function * () {
@@ -64,5 +67,6 @@ export const rootStore = new RootStore();
 export const ingestStore = rootStore.ingestStore;
 export const tenantStore = rootStore.tenantStore;
 export const uiStore = rootStore.uiStore;
+export const packagerStore = rootStore.packagerStore;
 
 window.rootStore = rootStore;
