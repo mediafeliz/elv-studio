@@ -17,7 +17,7 @@ import ReleaseDatesSection from "./sections/ReleaseDatesSection";
 import PeopleSection from "./sections/PeopleSection";
 import ContentInputSection from "./sections/ContentInputSection";
 
-const FilePackager = () => {
+const MediaPackager = () => {
     const [data, setData] = useState(mockData);
 
     const updateSection = (section, value) => {
@@ -75,4 +75,4 @@ const FilePackager = () => {
     );
 };
 
-export default FilePackager;
+export default MediaPackager;
