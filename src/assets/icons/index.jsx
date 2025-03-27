@@ -11,6 +11,7 @@ import ImageIcon from "@/assets/icons/ImageIcon.jsx";
 import JobsIcon from "@/assets/icons/JobsIcon.jsx";
 import MenuIcon from "@/assets/icons/MenuIcon.jsx";
 import UploadIcon from "@/assets/icons/UploadIcon.jsx";
+import PackagerIcon from "@/assets/icons/PackagerIcon.jsx";
 
 export {
   CheckmarkIcon,
@@ -25,5 +26,6 @@ export {
   ImageIcon,
   JobsIcon,
   MenuIcon,
-  UploadIcon
+  UploadIcon,
+  PackagerIcon
 };
