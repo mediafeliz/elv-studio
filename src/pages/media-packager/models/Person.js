@@ -1,18 +1,18 @@
 import { Model } from "objectmodel";
 import { makeAutoObservable } from "mobx";
 
-// const PersonLocalizationModel = Model({
-//     locale: String,
-//     name_display: String
-// });
+export const PersonLocalizationModel = Model({
+    locale: [String, null],
+    name_display: [String, null]
+});
 
 const PersonModel = Model({
     character: String,
     job: String,
-    localizations: [Array],
-    name_family: String,
-    name_given: String,
-    order: String
+    localizations: [Array.of(PersonLocalizationModel)],
+    name_family: [String, null],
+    name_given: [String, null],
+    order: [Number, null]
 });
 
 export class Person extends PersonModel {
