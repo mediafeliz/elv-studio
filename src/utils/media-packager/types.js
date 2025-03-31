@@ -1,4 +1,4 @@
-const fileTypes = {
+export const fileTypes = {
     captions: {},
     subtitle: {
         subTypes: [null, "hearing_impaired", "forced"]
@@ -16,6 +16,6 @@ const fileTypes = {
     preview: {},
     dubcard: {}
 };
-const releaseTypes = ["Theatrical", "Broadcast", "Blu-ray", "DVD"]
+export const releaseTypes = ["Theatrical", "Broadcast", "Blu-ray", "DVD"];
 
-const jobTypes = ["Actor", "Director", "Writer", "Composer", ]
+export const jobTypes = ["Actor", "Director", "Writer", "Composer", ];

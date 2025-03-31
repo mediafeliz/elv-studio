@@ -399,4 +399,4 @@ export const filmRatings = {
         reasons: [],
         reasons_required: false
     }
-}
+};
