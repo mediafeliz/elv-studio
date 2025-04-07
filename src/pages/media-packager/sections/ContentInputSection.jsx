@@ -10,7 +10,7 @@ import {
     Badge,
     Stack
 } from "@mantine/core";
-import { IconFolder, IconUpload, IconTrash, IconRefresh, IconLoader } from "@tabler/icons-react";
+import { IconFolder, IconUpload, IconDeviceFloppy, IconLoader } from "@tabler/icons-react";
 
 const ContentInputSection = () => {
     return (
@@ -39,9 +39,12 @@ const ContentInputSection = () => {
 
                 <Group spacing="xs">
                     <Button leftSection={<IconUpload size={16} />}>Create Package</Button>
-                    <Button leftSection={<IconRefresh size={16} />} variant="default">Reload XLS metadata</Button>
-                    <Button leftSection={<IconTrash size={16} />} color="red" variant="light">
-                        purge package_data.json
+                    <Button
+                        leftSection={<IconDeviceFloppy size={16} />}
+                        variant="filled"
+                        color="pink"
+                    >
+                        Save changes
                     </Button>
                 </Group>
             </Stack>

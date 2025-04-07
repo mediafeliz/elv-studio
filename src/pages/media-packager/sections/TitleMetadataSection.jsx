@@ -1,10 +1,8 @@
- 
 // eslint-disable-next-line no-unused-vars
-import React from "react";
+import React, { useState, useRef } from "react";
 import {
     TextInput,
     Select,
-    Button,
     Group,
     Box,
     Grid,
@@ -13,11 +11,29 @@ import {
     Title
 } from "@mantine/core";
 
-import { IconDeviceFloppy } from "@tabler/icons-react";
+import { localeIsoNames } from "@/utils/media-packager/isoLocales";
+import { filmRatings } from "@/utils/media-packager/territoryRatings";
 
 const TitleMetadataSection = ({ data, onUpdate }) => {
+    const [localData, setLocalData] = useState(data);
+    const dateInputRef = useRef(null);
+
     const handleChange = (field, value) => {
-        onUpdate({ ...data, [field]: value });
+        const updated = { ...localData, [field]: value };
+        setLocalData(updated);
+        onUpdate(updated);
+    };
+
+    const handleDateChange = (value) => {
+        handleChange("release_date", value);
+    };
+
+    const handleDateBlur = () => {
+        const date = localData.release_date;
+        if (date && !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            alert("Invalid date format. Please use YYYY-MM-DD.");
+            setTimeout(() => dateInputRef.current?.focus(), 0);
+        }
     };
 
     return (
@@ -28,64 +44,14 @@ const TitleMetadataSection = ({ data, onUpdate }) => {
                 <Grid.Col span={6}>
                     <TextInput
                         label="Original Title"
-                        value={data.title || ""}
+                        value={localData.title || ""}
                         onChange={(e) => handleChange("title", e.currentTarget.value)}
-                    />
-                </Grid.Col>
-                <Grid.Col span={6}>
-                    <TextInput
-                        label="Unique ID"
-                        value={data.identifier || ""}
-                        onChange={(e) => handleChange("identifier", e.currentTarget.value)}
-                    />
-                </Grid.Col>
-                <Grid.Col span={6}>
-                    <Select
-                        label="Partner (alias)"
-                        data={["Sony (sphe)", "Warner", "Universal"]}
-                        value={data.partner_alias || ""}
-                        onChange={(val) => handleChange("partner_alias", val)}
-                        searchable
-                        clearable
-                    />
-                </Grid.Col>
-                <Grid.Col span={6}>
-                    <TextInput
-                        label="Distributor"
-                        value={data.distributor || ""}
-                        onChange={(e) => handleChange("distributor", e.currentTarget.value)}
-                    />
-                </Grid.Col>
-                <Grid.Col span={6}>
-                    <Select
-                        label="Original Spoken Locale"
-                        data={["English US (en-US)", "French (fr-FR)", "Portuguese BR (pt-BR)"]}
-                        value={data.original_spoken_locale || ""}
-                        onChange={(val) => handleChange("original_spoken_locale", val)}
-                        searchable
-                    />
-                </Grid.Col>
-                <Grid.Col span={6}>
-                    <Select
-                        label="Country of Origin"
-                        data={["United States (US)", "France (FR)", "Brazil (BR)"]}
-                        value={data.country_of_origin || ""}
-                        onChange={(val) => handleChange("country_of_origin", val)}
-                        searchable
-                    />
-                </Grid.Col>
-                <Grid.Col span={6}>
-                    <TextInput
-                        label="Release Date"
-                        placeholder="YYYY-MM-DD"
-                        value={data.release_date || ""}
-                        onChange={(e) => handleChange("release_date", e.currentTarget.value)}
                     />
                 </Grid.Col>
                 <Grid.Col span={6}>
                     <Radio.Group
                         label="Scheme"
-                        value={data.scheme || ""}
+                        value={localData.scheme || ""}
                         onChange={(val) => handleChange("scheme", val)}
                     >
                         <Group mt="xs">
@@ -94,10 +60,58 @@ const TitleMetadataSection = ({ data, onUpdate }) => {
                         </Group>
                     </Radio.Group>
                 </Grid.Col>
+                <Grid.Col span={6}>
+                    <TextInput
+                        label="Partner (alias)"
+                        value={localData.partner_alias || ""}
+                        onChange={(e) => handleChange("partner_alias", e.currentTarget.value)}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <TextInput
+                        label="Distributor"
+                        value={localData.distributor || ""}
+                        onChange={(e) => handleChange("distributor", e.currentTarget.value)}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <Select
+                        label="Original Spoken Locale"
+                        data={Object.entries(localeIsoNames).map(([code, name]) => ({ value: code, label: `${name} (${code})` }))}
+                        value={localData.original_spoken_locale || null}
+                        onChange={(val) => handleChange("original_spoken_locale", val)}
+                        searchable
+                        clearable
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <Select
+                        label="Country of Origin"
+                        data={Object.entries(filmRatings).map(([code, { name }]) => ({ value: code, label: `${name} (${code})` }))}
+                        value={localData.country_of_origin || null}
+                        onChange={(val) => handleChange("country_of_origin", val)}
+                        searchable
+                        clearable
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <TextInput
+                        label="Release Date"
+                        placeholder="YYYY-MM-DD"
+                        value={localData.release_date || ""}
+                        onChange={(e) => handleDateChange(e.currentTarget.value)}
+                        onBlur={handleDateBlur}
+                        ref={dateInputRef}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <TextInput
+                        label="Unique ID"
+                        value={localData.identifier || ""}
+                        onChange={(e) => handleChange("identifier", e.currentTarget.value)}
+                    />
+                </Grid.Col>        
             </Grid>
-            <Group mt="md" justify="flex-end">
-                <Button leftSection={<IconDeviceFloppy size={16} />} variant="filled" color="blue">Save</Button>
-            </Group>
         </Box>
     );
 };
