@@ -1,79 +1,141 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
 import {
-    Box,
-    Table,
-    Title,
-    Button,
-    Group,
-    Divider,
-    Checkbox
+  Box,
+  Table,
+  Title,
+  Button,
+  Group,
+  Divider,
+  Checkbox,
+  Select,
+  MultiSelect,
+  TextInput
 } from "@mantine/core";
-import { IconPlus, IconTrash, IconDeviceFloppy } from "@tabler/icons-react";
+import { IconPlus, IconTrash } from "@tabler/icons-react";
+import { filmRatings } from "@/utils/media-packager/territoryRatings";
 
-const RatingsSection = ({ data = [] }) => {
-    const [selected, setSelected] = useState([]);
+const RatingsSection = ({ data = [], onUpdate }) => {
+  const [entries, setEntries] = useState(data);
+  const [selected, setSelected] = useState([]);
+  const [newEntry, setNewEntry] = useState({ country: "", rating: "", reason: [], system: "" });
 
-    const toggleSelection = (index) => {
-        setSelected((prev) =>
-            prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-        );
-    };
+  const getCountryOptions = () => Object.keys(filmRatings);
+  const getRatingOptions = (country) => filmRatings[country]?.ratings || [];
+  const getReasonOptions = (country) => filmRatings[country]?.reasons || [];
+  const isReasonRequired = (country) => filmRatings[country]?.reasons_required;
+  const getSystem = (country) => filmRatings[country]?.system || "";
 
-    const toggleAll = () => {
-        setSelected((prev) =>
-            prev.length === data.length ? [] : data.map((_, i) => i)
-        );
-    };
+  const handleChange = (field, value) => {
+    const updated = { ...newEntry, [field]: value };
+    if (field === "country") {
+      updated.rating = "";
+      updated.reason = [];
+      updated.system = getSystem(value);
+    }
+    setNewEntry(updated);
+  };
 
-    return (
-        <Box my="xl">
-            <Title order={4} mb="xs" c="blue.7">
-                Ratings
-            </Title>
-            <Divider my="sm" />
+  const addEntry = () => {
+    if (!newEntry.country || !newEntry.rating || (isReasonRequired(newEntry.country) && newEntry.reason.length === 0)) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+    const updated = [...entries, newEntry];
+    setEntries(updated);
+    setNewEntry({ country: null, rating: null, reason: [], system: "" });
+    onUpdate(updated);
+  };
 
-            <Table withTableBorder withColumnBorders striped highlightOnHover>
-                <Table.Thead>
-                    <Table.Tr>
-                        <Table.Th>
-                            <Checkbox
-                                checked={selected.length === data.length}
-                                indeterminate={selected.length > 0 && selected.length < data.length}
-                                onChange={toggleAll}
-                            />
-                        </Table.Th>
-                        <Table.Th>Country</Table.Th>
-                        <Table.Th>Rating</Table.Th>
-                        <Table.Th>Reason</Table.Th>
-                        <Table.Th>System</Table.Th>
-                    </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                    {data.map((row, index) => (
-                        <Table.Tr key={index}>
-                            <Table.Td>
-                                <Checkbox
-                                    checked={selected.includes(index)}
-                                    onChange={() => toggleSelection(index)}
-                                />
-                            </Table.Td>
-                            <Table.Td>{row.country}</Table.Td>
-                            <Table.Td>{row.rating}</Table.Td>
-                            <Table.Td>{row.reason}</Table.Td>
-                            <Table.Td>{row.system}</Table.Td>
-                        </Table.Tr>
-                    ))}
-                </Table.Tbody>
-            </Table>
+  const deleteSelected = () => {
+    const updated = entries.filter((_, i) => !selected.includes(i));
+    setEntries(updated);
+    setSelected([]);
+    onUpdate(updated);
+  };
 
-            <Group justify="end" mt="md">
-                <Button variant="light" color="blue" leftSection={<IconPlus size={16} />}>Add</Button>
-                <Button variant="light" color="red" leftSection={<IconTrash size={16} />}>Delete</Button>
-                <Button variant="filled" color="blue" leftSection={<IconDeviceFloppy size={16} />}>Save</Button>
-            </Group>
-        </Box>
+  const toggleSelection = (index) => {
+    setSelected((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
+  };
+
+  return (
+    <Box my="xl">
+      <Title order={4} mb="xs" c="blue.7">
+        Ratings
+      </Title>
+      <Divider my="sm" />
+
+      <Table withTableBorder withColumnBorders striped highlightOnHover>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th></Table.Th>
+            <Table.Th>Country</Table.Th>
+            <Table.Th>Rating</Table.Th>
+            <Table.Th>Reason</Table.Th>
+            <Table.Th>System</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {entries.map((row, index) => (
+            <Table.Tr key={index}>
+              <Table.Td>
+                <Checkbox
+                  checked={selected.includes(index)}
+                  onChange={() => toggleSelection(index)}
+                />
+              </Table.Td>
+              <Table.Td>{row.country}</Table.Td>
+              <Table.Td>{row.rating}</Table.Td>
+              <Table.Td>{(row.reason || []).join(", ")}</Table.Td>
+              <Table.Td>{row.system}</Table.Td>
+            </Table.Tr>
+          ))}
+          <Table.Tr>
+            <Table.Td></Table.Td>
+            <Table.Td>
+              <Select
+                data={getCountryOptions()}
+                value={newEntry.country}
+                onChange={(val) => handleChange("country", val)}
+                searchable
+                placeholder="Select country"
+              />
+            </Table.Td>
+            <Table.Td>
+              <Select
+                data={getRatingOptions(newEntry.country)}
+                value={newEntry.rating}
+                onChange={(val) => handleChange("rating", val)}
+                placeholder="Select rating"
+                searchable
+                disabled={!newEntry.country}
+              />
+            </Table.Td>
+            <Table.Td>
+              <MultiSelect
+                data={getReasonOptions(newEntry.country)}
+                value={newEntry.reason}
+                onChange={(val) => handleChange("reason", val)}
+                placeholder="Select reasons"
+                searchable
+                disabled={!newEntry.country || !isReasonRequired(newEntry.country)}
+              />
+            </Table.Td>
+            <Table.Td>
+              <TextInput disabled value={getSystem(newEntry.country)} readOnly />
+            </Table.Td>
+          </Table.Tr>
+        </Table.Tbody>
+      </Table>
+
+      <Group justify="end" mt="md">
+        <Button variant="light" color="red" leftSection={<IconTrash size={16} />} onClick={deleteSelected}>Delete</Button>
+        <Button variant="light" color="blue" leftSection={<IconPlus size={16} />} onClick={addEntry}>Add</Button>
+      </Group>
+    </Box>
+  );
 };
 
 export default RatingsSection;

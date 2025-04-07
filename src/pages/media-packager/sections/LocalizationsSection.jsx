@@ -48,7 +48,7 @@ const LocalizationsSection = ({ data = [], onUpdate }) => {
     const addOrDuplicate = () => {
         let updated;
         if (selected.length > 0) {
-            updated = [...entries, ...selected.map(i => ({ ...entries[i], locale: "" }))];
+            updated = [...entries, ...selected.map(i => ({ ...entries[i], locale: "", is_default: false }))];
         } else {
             updated = [...entries, { locale: "", original_title: "", genres: [], summary_190: "", copyright: "", is_default: false }];
         }
