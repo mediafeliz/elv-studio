@@ -16,15 +16,17 @@
             "locale": "fr-FR",
             "is_dubbed": true,
             "track_of": "[source] Demo_Some_Title_031970_Feature_en-US_1920x1080_51.mov",
-            "audio": "5.1 + 2.0"
+            "audio": "5.1 + 2.0",
+            "details": "5.1 + 2.0"
         },
         {
             "file_type": "source",
             "file_name": "Demo_Some_Title_031970_Feature_en-US_1920x1080_51.mov",
             "locale": "en-US",
             "is_dubbed": false,
-            "resolution": "1920x1080",
-            "audio": "5.1 + 2.0"
+            "resolution": "",
+            "audio": "5.1 + 2.0",
+            "details": "1920x1080 5.1 + 2.0"
         },
         {
             "file_type": "preview",
@@ -32,12 +34,14 @@
             "locale": "en-US",
             "is_dubbed": false,
             "resolution": "1920x1080",
-            "audio": "5.1 + 2.0"
+            "audio": "5.1 + 2.0",
+            "details": "1920x1080 5.1 + 2.0"
         },
         {
             "file_type": "subtitle",
             "file_name": "Demo_Some_Title_031970_Feature_Full_fr-FR.itt",
-            "locale": "fr-FR"
+            "locale": "fr-FR",
+            "details": ""
         }
     ],
     "localizations": [
@@ -45,18 +49,22 @@
             "locale": "fr-FR",
             "title": "Demo Movie",
             "genres": [
-                "av_genre_comedy"
+                "Comedy"
             ],
             "summary_190": "Demo Movie est une parodie ludique...",
+            "summary_400": "Demo Movie est une parodie ludique sur la réalisatrice Ava Lee réalisant un film cliché pour un atelier. C'est un film dans un film où les personnages abordent avec humour les tropes cinématographiques tandis qu'Ava transforme les incidents de production en leçons de réalisation. Le mélange de réalité et de fiction culmine lorsque le méchant se croit dans un véritable thriller, ajoutant profondeur et humour.",
+            "summary_4000": "Demo Movie est une exploration inventive du cinéma, centrée sur la quête de la réalisatrice Ava Lee pour créer un film lors d'un atelier de cinéaste, visant à éduquer sur le processus de réalisation d'un film. L'intrigue est intentionnellement clichée, permettant à Ava et à son équipe de décortiquer divers aspects du cinéma tels que l'écriture du scénario, le tournage et le montage. Les personnages du film sont conscients d'eux-mêmes et discutent fréquemment des tropes qu'ils représentent, offrant un regard humoristique et perspicace sur les conventions du cinéma. Au fur et à mesure que le film progresse, Ava est confrontée à des défis de production typiques, qui servent de moments éducatifs à la fois à son équipe et au public. Le récit brouille intelligemment les frontières entre le film et la réalité, en particulier lorsque le méchant croit être dans un véritable thriller, ce qui entraîne des complications comiques. Le film se termine par une simulation de confrontation dramatique, suivie du monologue réfléchi d'Ava sur l'art de la narration et l'importance de la créativité dans la réalisation cinématographique, faisant de Demo Movie un mélange unique de divertissement et d'enseignement.",
             "copyright": "1981 Columbia Pictures Industries, Inc. All Rights Reserved."
         },
         {
             "locale": "en-US",
             "title": "Demo Movie",
             "genres": [
-                "av_genre_comedy"
+                "Comedy"
             ],
             "summary_190": "Demo Movie is a playful parody...",
+            "summary_400": "Demo Movie is a playful parody about director Ava Lee making a clichéd film for a workshop. It's a film within a film where characters humorously tackle cinematic tropes while Ava turns production mishaps into lessons on filmmaking. The mix of reality and fiction peaks when the villain believes he's in a real thriller, adding depth and humor.",
+            "summary_4000": "Demo Movie is an inventive exploration into filmmaking, centered around director Ava Lee's quest to create a film during a filmmaker's workshop, aiming to educate on the movie-making process. The plot is intentionally cliché, allowing Ava and her team to dissect various aspects of filmmaking such as scriptwriting, shooting, and editing. Characters within the film are self-aware and frequently discuss the tropes they represent, offering a humorous and insightful look at the conventions of cinema. As the film progresses, Ava faces typical production challenges, which serve as educational moments for both her crew and the audience. The narrative cleverly blurs the lines between the film and reality, particularly when the villain believes he's in an actual thriller, leading to comedic complications. The film culminates in a mock dramatic showdown, followed by Ava's reflective monologue on the art of storytelling and the significance of creativity in filmmaking, making Demo Movie a unique blend of entertainment and instruction.",
             "copyright": "1981 Columbia Pictures Industries, Inc. All Rights Reserved."
         }
     ],
