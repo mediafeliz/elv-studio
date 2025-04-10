@@ -12,40 +12,70 @@
     "files_only_data": [
         {
             "file_type": "audio",
+            "sub_type": "",
             "file_name": "Demo_Some_Title_031970_Audio_FR.mov",
             "locale": "fr-FR",
             "is_dubbed": true,
             "track_of": "[source] Demo_Some_Title_031970_Feature_en-US_1920x1080_51.mov",
-            "audio": "5.1 + 2.0",
+            "audio": "5.1 + 2.0 //THIS WILL BE DEPRECATED",
             "details": "5.1 + 2.0"
         },
         {
             "file_type": "source",
+            "sub_type": "",
             "file_name": "Demo_Some_Title_031970_Feature_en-US_1920x1080_51.mov",
             "locale": "en-US",
             "is_dubbed": false,
-            "resolution": "",
-            "audio": "5.1 + 2.0",
+            "resolution": "//THIS WILL BE DEPRECATED",
+            "audio": "5.1 + 2.0 //THIS WILL BE DEPRECATED",
             "details": "1920x1080 5.1 + 2.0"
         },
         {
             "file_type": "preview",
+            "sub_type": "",
             "file_name": "Demo_Some_Title_031970_Preview_en-US_1920x1080_51.mov",
             "locale": "en-US",
             "is_dubbed": false,
-            "resolution": "1920x1080",
-            "audio": "5.1 + 2.0",
+            "resolution": "1920x1080 //THIS WILL BE DEPRECATED",
+            "audio": "5.1 + 2.0 //THIS WILL BE DEPRECATED",
             "details": "1920x1080 5.1 + 2.0"
         },
         {
             "file_type": "subtitle",
+            "sub_type": "",
+            "track_of": "[source] Demo_Some_Title_031970_Feature_en-US_1920x1080_51.mov",
             "file_name": "Demo_Some_Title_031970_Feature_Full_fr-FR.itt",
             "locale": "fr-FR",
+            "details": ""
+        },
+        {
+            "file_type": "subtitle",
+            "sub_type": "forced",
+            "track_of": "[source] Demo_Some_Title_031970_Feature_en-US_1920x1080_51.mov",
+            "file_name": "Demo_Some_Title_031970_Feature_Forced_fr-FR.itt",
+            "locale": "fr-FR",
+            "details": ""
+        },
+        {
+            "file_type": "captions",
+            "sub_type": "",
+            "track_of": "[source] Demo_Some_Title_031970_Feature_en-US_1920x1080_51.mov",
+            "file_name": "Demo_Some_Title_031970_Feature_CC_en-US.scc",
+            "locale": "en-US",
+            "details": ""
+        },
+        {
+            "file_type": "artwork",
+            "sub_type": "poster_3:4",
+            "track_of": "",
+            "file_name": "Demo_Some_Title_poster_texted.jpg",
+            "locale": "en-US",
             "details": ""
         }
     ],
     "localizations": [
         {
+            "default": false,
             "locale": "fr-FR",
             "title": "Demo Movie",
             "genres": [
@@ -57,28 +87,56 @@
             "copyright": "1981 Columbia Pictures Industries, Inc. All Rights Reserved."
         },
         {
+            "default": true,
             "locale": "en-US",
             "title": "Demo Movie",
             "genres": [
-                "Comedy"
+                "Comedy",
+                "Romance"
             ],
             "summary_190": "Demo Movie is a playful parody...",
             "summary_400": "Demo Movie is a playful parody about director Ava Lee making a clichéd film for a workshop. It's a film within a film where characters humorously tackle cinematic tropes while Ava turns production mishaps into lessons on filmmaking. The mix of reality and fiction peaks when the villain believes he's in a real thriller, adding depth and humor.",
             "summary_4000": "Demo Movie is an inventive exploration into filmmaking, centered around director Ava Lee's quest to create a film during a filmmaker's workshop, aiming to educate on the movie-making process. The plot is intentionally cliché, allowing Ava and her team to dissect various aspects of filmmaking such as scriptwriting, shooting, and editing. Characters within the film are self-aware and frequently discuss the tropes they represent, offering a humorous and insightful look at the conventions of cinema. As the film progresses, Ava faces typical production challenges, which serve as educational moments for both her crew and the audience. The narrative cleverly blurs the lines between the film and reality, particularly when the villain believes he's in an actual thriller, leading to comedic complications. The film culminates in a mock dramatic showdown, followed by Ava's reflective monologue on the art of storytelling and the significance of creativity in filmmaking, making Demo Movie a unique blend of entertainment and instruction.",
             "copyright": "1981 Columbia Pictures Industries, Inc. All Rights Reserved."
+        },
+        {
+            "default": null,
+            "locale": "pt-BR",
+            "title": "Filme Demo",
+            "genres": [
+                "Comedy",
+                "Romance"
+            ],
+            "summary_190": "Demo Movie é uma divertida paródia...",
+            "summary_400": "Demo Movie é uma divertida paródia sobre a diretora Ava Lee produzindo um filme clichê para um workshop. É um filme dentro de um filme onde os personagens abordam com humor tropos cinematográficos enquanto Ava transforma percalços de produção em lições sobre como fazer filmes. A mistura de realidade e ficção atinge o pico quando o vilão acredita que está em um thriller de verdade, adicionando profundidade e humor.",
+            "summary_4000": "Demo Movie parodia habilmente o processo de produção cinematográfica por meio da história da diretora Ava Lee, que assume a produção de um filme clichê como parte de um workshop de cineasta. O filme em si é um meta-comentário, com personagens que estão cientes de seus papéis arquetípicos e se envolvem em discussões humorísticas sobre tropos cinematográficos. Ava navega por desafios típicos de produção, usando-os como momentos de aprendizado sobre roteiro, filmagem e edição. A narrativa funde filme com realidade, especialmente quando o vilão acredita erroneamente que faz parte de um thriller real, adicionando camadas de comédia e complexidade. O filme conclui com Ava refletindo sobre a essência da narrativa e da criatividade, tornando Demo Movie uma exploração educacional, mas divertida, do cinema."
         }
     ],
     "ratings": [
         {
             "country": "BR",
-            "rating": "16"
+            "rating": "16",
+            "reasons": ["V", "VE", "CS"],
+            "system": "DJCTQ"
         },
         {
             "country": "FR",
-            "rating": "12"
+            "rating": "18",
+            "reasons": [],
+            "system": "CNC"
         }
     ],
     "release_dates": [
+        {
+            "country": "BR",
+            "type": "Broadcast",
+            "date": "1991-04-16"
+        },
+        {
+            "country": "BR",
+            "type": "DVD",
+            "date": "2004-02-24"
+        },
         {
             "country": "FR",
             "type": "Theatrical",
@@ -93,28 +151,52 @@
     "people": [
         {
             "job": "Actor",
-            "character": "Mike Sanders",
-            "display_name": "James Marlowe"
-        },
-        {
+            "order": 1,
+            "localizations": [{
+                "locale": "en-US",
+                "name_dispaly": "James Marlowe",
+                "character": "Mike Sanders"
+            }, {
+                "locale": "pt-BR",
+                "name_dispaly": "Tiago Marlowe",
+                "character": "Mike Sanders"
+            }]
+        }, {
             "job": "Actor",
-            "character": "Jessica Hart",
-            "display_name": "Lila Vance"
-        },
-        {
+            "order": 2,
+            "localizations": [{
+                "locale": "en-US",
+                "name_dispaly": "Lila Vance",
+                "character": "Jessica Hart"
+            }, {
+                "locale": "pt-BR",
+                "name_dispaly": "Lila Vance",
+                "character": "Jessica Hart"
+            }]
+        }, {
             "job": "Director",
-            "character": "Director Ava Lee",
-            "display_name": "Sophia Lorenz"
-        },
-        {
+            "order": 1,
+            "localizations": [{
+                "locale": "en-US",
+                "name_dispaly": "Sophia Lorenz",
+                "character": ""
+            }]
+        }, {
             "job": "Producer",
-            "character": "",
-            "display_name": "Theo Clarkson"
-        },
-        {
+            "order": 1,
+            "localizations": [{
+                "locale": "",
+                "name_dispaly": "Theo Clarkson",
+                "character": ""
+            }]
+        }, {
             "job": "Writer",
-            "character": "",
-            "display_name": "Harper Eliot"
+            "order": 1,
+            "localizations": [{
+                "locale": "",
+                "name_dispaly": "Harper Eliot",
+                "character": ""
+            }]
         }
     ]
 }
