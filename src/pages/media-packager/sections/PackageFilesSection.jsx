@@ -24,9 +24,7 @@ const PackageFilesSection = ({ data, onUpdate }) => {
         is_dubbed: false,
         locale: "",
         track_of: "",
-        burned_sub: false,
-        audio: "",
-        resolution: ""
+        details: ""
     });
     const [selected, setSelected] = useState([]);
 
@@ -47,23 +45,31 @@ const PackageFilesSection = ({ data, onUpdate }) => {
             is_dubbed: false,
             locale: "",
             track_of: "",
-            burned_sub: false,
-            audio: "",
-            resolution: ""
+            details: ""
         });
     };
 
     const getFileTypeOptions = () => Object.keys(fileTypes);
-
     const getSubTypeOptions = (type) => fileTypes[type]?.subTypes || [];
-
     const getLocaleOptions = () =>
-        Object.entries(localeIsoNames).map(([code]) => ({ value: code, label: `${code}` }));
+        Object.entries(localeIsoNames).map(([code, name]) => ({
+            value: code,
+            label: `${name} (${code})`
+        }));
 
     const getTrackOfOptions = () =>
-        entries
-            .filter((f) => ["source", "preview"].includes(f.file_type))
-            .map((f) => f.file_name);
+        entries.filter(f => ["source", "preview"].includes(f.file_type))
+            .map(f => ({
+                value: f.file_name,
+                label: `[${f.file_type}] ${f.file_name}`
+            }));
+
+    const handleChange = (index, field, value) => {
+        const updated = [...entries];
+        updated[index][field] = value;
+        setEntries(updated);
+        onUpdate(updated);
+    };
 
     return (
         <Box my="xl">
@@ -76,15 +82,14 @@ const PackageFilesSection = ({ data, onUpdate }) => {
                 <Table.Thead>
                     <Table.Tr>
                         <Table.Th></Table.Th>
-                        <Table.Th>File Type</Table.Th>
-                        <Table.Th>Sub Type</Table.Th>
+                        <Table.Th w="140px">File Type</Table.Th>
+                        <Table.Th w="140px">Sub Type</Table.Th>
                         <Table.Th>File Name</Table.Th>
                         <Table.Th>Dubbed</Table.Th>
                         <Table.Th>Locale</Table.Th>
                         <Table.Th>Track Of</Table.Th>
                         <Table.Th>Burned Sub</Table.Th>
-                        <Table.Th>Audio</Table.Th>
-                        <Table.Th>Resolution</Table.Th>
+                        <Table.Th>Details</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
@@ -97,24 +102,76 @@ const PackageFilesSection = ({ data, onUpdate }) => {
                                     disabled={!["audio", "source", "preview"].includes(item.file_type)}
                                 />
                             </Table.Td>
-                            <Table.Td>{item.file_type}</Table.Td>
-                            <Table.Td>{item.sub_type}</Table.Td>
-                            <Table.Td>{item.file_name}</Table.Td>
-                            <Table.Td>
-                                <Checkbox checked={item.is_dubbed} disabled={!["audio", "source", "preview"].includes(item.file_type)} readOnly />
+                            <Table.Td w="140px">
+                                <Select
+                                    data={getFileTypeOptions()}
+                                    value={item.file_type}
+                                    onChange={(val) => handleChange(index, "file_type", val)}
+                                    searchable
+                                    placeholder="Select type"
+                                />
                             </Table.Td>
-                            <Table.Td>{item.locale}</Table.Td>
-                            <Table.Td>{item.track_of}</Table.Td>
-                            <Table.Td>
-                                <Checkbox checked={item.burned_sub} disabled={!["preview", "source"].includes(item.file_type)} readOnly />
+                            <Table.Td w="140px">
+                                <Select
+                                    data={getSubTypeOptions(item.file_type)}
+                                    value={item.sub_type}
+                                    onChange={(val) => handleChange(index, "sub_type", val)}
+                                    placeholder="Select subtype"
+                                    disabled={!item.file_type}
+                                />
                             </Table.Td>
-                            <Table.Td>{item.audio}</Table.Td>
-                            <Table.Td>{item.resolution}</Table.Td>
+                            <Table.Td>
+                                <TextInput
+                                    value={item.file_name}
+                                    onChange={(e) => handleChange(index, "file_name", e.target.value)}
+                                />
+                            </Table.Td>
+                            <Table.Td>
+                                <Checkbox
+                                    checked={item.is_dubbed}
+                                    onChange={(e) => handleChange(index, "is_dubbed", e.currentTarget.checked)}
+                                    disabled={!["audio", "source", "preview"].includes(item.file_type)}
+                                />
+                            </Table.Td>
+                            <Table.Td>
+                                <Select
+                                    data={getLocaleOptions()}
+                                    value={item.locale}
+                                    onChange={(val) => handleChange(index, "locale", val)}
+                                    searchable
+                                    placeholder="Select locale"
+                                    disabled={["preview", "source"].includes(item.file_type)}
+                                />
+                            </Table.Td>
+                            <Table.Td>
+                                <Select
+                                    data={getTrackOfOptions()}
+                                    value={item.track_of}
+                                    onChange={(val) => handleChange(index, "track_of", val)}
+                                    placeholder="Select track"
+                                    searchable
+                                    disabled={!["audio", "subtitle"].includes(item.file_type)}
+                                />
+                            </Table.Td>
+                            <Table.Td>
+                                <TextInput
+                                    value={item.burned_sub || ""}
+                                    onChange={(e) => handleChange(index, "burned_sub", e.target.value)}
+                                />
+                            </Table.Td>
+                            <Table.Td>
+                                <TextInput
+                                    value={item.details || ""}
+                                    onChange={(e) => handleChange(index, "details", e.target.value)}
+                                />
+                            </Table.Td>
                         </Table.Tr>
                     ))}
+
+                    {/* Add new row */}
                     <Table.Tr>
                         <Table.Td></Table.Td>
-                        <Table.Td w="25%">
+                        <Table.Td>
                             <Select
                                 data={getFileTypeOptions()}
                                 value={newEntry.file_type}
@@ -145,7 +202,7 @@ const PackageFilesSection = ({ data, onUpdate }) => {
                                 disabled={!["audio", "source", "preview"].includes(newEntry.file_type)}
                             />
                         </Table.Td>
-                        <Table.Td w="20%">
+                        <Table.Td>
                             <Select
                                 data={getLocaleOptions()}
                                 value={newEntry.locale}
@@ -166,22 +223,15 @@ const PackageFilesSection = ({ data, onUpdate }) => {
                             />
                         </Table.Td>
                         <Table.Td>
-                            <Checkbox
-                                checked={newEntry.burned_sub}
-                                onChange={(e) => setNewEntry({ ...newEntry, burned_sub: e.currentTarget.checked })}
-                                disabled={!["preview", "source"].includes(newEntry.file_type)}
+                            <TextInput
+                                value={newEntry.burned_sub || ""}
+                                onChange={(e) => setNewEntry({ ...newEntry, burned_sub: e.target.value })}
                             />
                         </Table.Td>
                         <Table.Td>
                             <TextInput
-                                value={newEntry.audio}
-                                onChange={(e) => setNewEntry({ ...newEntry, audio: e.target.value })}
-                            />
-                        </Table.Td>
-                        <Table.Td>
-                            <TextInput
-                                value={newEntry.resolution}
-                                onChange={(e) => setNewEntry({ ...newEntry, resolution: e.target.value })}
+                                value={newEntry.details || ""}
+                                onChange={(e) => setNewEntry({ ...newEntry, details: e.target.value })}
                             />
                         </Table.Td>
                     </Table.Tr>

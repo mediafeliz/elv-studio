@@ -1,4 +1,4 @@
- 
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from "react";
 import {
     Box,
@@ -12,9 +12,10 @@ import {
     Select,
     Text,
     Stack,
-    Badge
+    Badge,
+    ActionIcon
 } from "@mantine/core";
-import { IconPlus, IconTrash } from "@tabler/icons-react";
+import { IconPlus, IconTrash, IconChevronDown, IconChevronRight } from "@tabler/icons-react";
 import { jobTypes } from "@/utils/media-packager/types";
 import { localeIsoNames } from "@/utils/media-packager/isoLocales";
 
@@ -22,6 +23,7 @@ const PeopleSection = ({ data = [], onUpdate }) => {
     const [entries, setEntries] = useState([]);
     const [selected, setSelected] = useState([]);
     const [selectedLocs, setSelectedLocs] = useState({});
+    const [expanded, setExpanded] = useState({});
 
     useEffect(() => {
         const initialized = data.map((item, index) => ({
@@ -59,6 +61,13 @@ const PeopleSection = ({ data = [], onUpdate }) => {
             updated[`${personIndex}-${i}`] = !allSelected;
         });
         setSelectedLocs(updated);
+    };
+
+    const toggleExpanded = (index) => {
+        setExpanded((prev) => ({
+            ...prev,
+            [index]: !prev[index]
+        }));
     };
 
     const handleChange = (index, field, value) => {
@@ -130,10 +139,10 @@ const PeopleSection = ({ data = [], onUpdate }) => {
                                 onChange={toggleAll}
                             />
                         </Table.Th>
-                        <Table.Th>Order</Table.Th>
+                        <Table.Th style={{ width: 80 }}>Order</Table.Th>
                         <Table.Th>Job</Table.Th>
                         <Table.Th>Character</Table.Th>
-                        <Table.Th>Display Name</Table.Th>
+                        <Table.Th style={{ width: 200 }}>Display Name</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
@@ -175,7 +184,7 @@ const PeopleSection = ({ data = [], onUpdate }) => {
                                                 <Group key={locIndex} gap="xs">
                                                     <Text size="sm">{loc.display_name}</Text>
                                                     {loc.locale && (
-                                                        <Badge size="xs" variant="light">
+                                                        <Badge size="xs" variant="light" style={{ textTransform: "none" }}>
                                                             {loc.locale}
                                                         </Badge>
                                                     )}
@@ -187,68 +196,75 @@ const PeopleSection = ({ data = [], onUpdate }) => {
                                             </Text>
                                         )}
                                     </Stack>
+                                    <br></br>
+                                    {person.localizations.length > 0 && (
+                                        <ActionIcon variant="light" size="sm" onClick={() => toggleExpanded(index)}>
+                                            {expanded[index] ? <IconChevronDown size={16} /> : <IconChevronRight size={16} />}
+                                        </ActionIcon>
+                                    )}
                                 </Table.Td>
                             </Table.Tr>
 
-                            {/* Cabeçalho da subtabela */}
-                            {person.localizations.length > 0 && (
-                                <Table.Tr>
-                                    <Table.Td></Table.Td>
-                                    <Table.Th>
-                                        <Checkbox
-                                            checked={person.localizations.every((_, i) => selectedLocs[`${index}-${i}`])}
-                                            indeterminate={person.localizations.some((_, i) => selectedLocs[`${index}-${i}`]) && !person.localizations.every((_, i) => selectedLocs[`${index}-${i}`])}
-                                            onChange={() => toggleAllLocs(index)}
-                                        />
-                                    </Table.Th>
-                                    <Table.Th colSpan={2}>Display Name</Table.Th>
-                                    <Table.Th colSpan={2}>Locale</Table.Th>
-                                </Table.Tr>
+                            {expanded[index] && (
+                                <>
+                                    <Table.Tr>
+                                        <Table.Td></Table.Td>
+                                        <Table.Th>
+                                            <Checkbox
+                                                checked={person.localizations.every((_, i) => selectedLocs[`${index}-${i}`])}
+                                                indeterminate={person.localizations.some((_, i) => selectedLocs[`${index}-${i}`]) && !person.localizations.every((_, i) => selectedLocs[`${index}-${i}`])}
+                                                onChange={() => toggleAllLocs(index)}
+                                            />
+                                        </Table.Th>
+                                        <Table.Th colSpan={2}>Display Name</Table.Th>
+                                        <Table.Th colSpan={2}>Locale</Table.Th>
+                                    </Table.Tr>
+
+                                    {person.localizations.map((loc, locIndex) => (
+                                        <Table.Tr key={`${index}-loc-${locIndex}`}>
+                                            <Table.Td></Table.Td>
+                                            <Table.Td>
+                                                <Checkbox
+                                                    checked={!!selectedLocs[`${index}-${locIndex}`]}
+                                                    onChange={() => toggleLocSelection(index, locIndex)}
+                                                />
+                                            </Table.Td>
+                                            <Table.Td colSpan={2}>
+                                                <TextInput
+                                                    value={loc.display_name}
+                                                    placeholder="Display Name"
+                                                    onChange={(e) => handleLocalizationChange(index, locIndex, "display_name", e.target.value)}
+                                                />
+                                            </Table.Td>
+                                            <Table.Td colSpan={2}>
+                                                <Select
+                                                    data={Object.entries(localeIsoNames).map(([code, name]) => ({ value: code, label: `${name} (${code})` }))}
+                                                    value={loc.locale}
+                                                    onChange={(val) => handleLocalizationChange(index, locIndex, "locale", val)}
+                                                    searchable
+                                                    placeholder="Select locale"
+                                                />
+                                            </Table.Td>
+                                        </Table.Tr>
+                                    ))}
+
+                                    <Table.Tr>
+                                        <Table.Td colSpan={6}>
+                                            <Group justify="space-between" align="center" py={4}>
+                                                <Group>
+                                                    <Button variant="light" size="xs" onClick={() => addLocalization(index)}>
+                                                        + Add Display Name
+                                                    </Button>
+                                                    <Button variant="light" color="red" size="xs" onClick={() => deleteSelectedLocalizations(index)}>
+                                                        Delete Selected
+                                                    </Button>
+                                                </Group>
+                                                <Divider my="sm" w="100%" />
+                                            </Group>
+                                        </Table.Td>
+                                    </Table.Tr>
+                                </>
                             )}
-
-                            {person.localizations.map((loc, locIndex) => (
-                                <Table.Tr key={`${index}-loc-${locIndex}`}>
-                                    <Table.Td></Table.Td>
-                                    <Table.Td>
-                                        <Checkbox
-                                            checked={!!selectedLocs[`${index}-${locIndex}`]}
-                                            onChange={() => toggleLocSelection(index, locIndex)}
-                                        />
-                                    </Table.Td>
-                                    <Table.Td colSpan={2}>
-                                        <TextInput
-                                            value={loc.display_name}
-                                            placeholder="Display Name"
-                                            onChange={(e) => handleLocalizationChange(index, locIndex, "display_name", e.target.value)}
-                                        />
-                                    </Table.Td>
-                                    <Table.Td colSpan={2}>
-                                        <Select
-                                            data={Object.entries(localeIsoNames).map(([code, name]) => ({ value: code, label: `${name} (${code})` }))}
-                                            value={loc.locale}
-                                            onChange={(val) => handleLocalizationChange(index, locIndex, "locale", val)}
-                                            searchable
-                                            placeholder="Select locale"
-                                        />
-                                    </Table.Td>
-                                </Table.Tr>
-                            ))}
-
-                            <Table.Tr>
-                                <Table.Td colSpan={6}>
-                                    <Group justify="space-between" align="center" py={4}>
-                                        <Group>
-                                            <Button variant="light" size="xs" onClick={() => addLocalization(index)}>
-                                                + Add Display Name
-                                            </Button>
-                                            <Button variant="light" color="red" size="xs" onClick={() => deleteSelectedLocalizations(index)}>
-                                                Delete Selected
-                                            </Button>
-                                        </Group>
-                                        <Divider my="sm" w="100%" />
-                                    </Group>
-                                </Table.Td>
-                            </Table.Tr>
                         </React.Fragment>
                     ))}
                 </Table.Tbody>

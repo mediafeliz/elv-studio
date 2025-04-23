@@ -59,12 +59,19 @@ const TitleMetadataSection = ({ data, onUpdate }) => {
                             <Radio value="org" label="org" />
                         </Group>
                     </Radio.Group>
-                </Grid.Col>
+                </Grid.Col>                
                 <Grid.Col span={6}>
                     <TextInput
                         label="Partner (alias)"
                         value={localData.partner_alias || ""}
                         onChange={(e) => handleChange("partner_alias", e.currentTarget.value)}
+                    />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <TextInput
+                        label="Unique ID"
+                        value={localData.identifier || ""}
+                        onChange={(e) => handleChange("identifier", e.currentTarget.value)}
                     />
                 </Grid.Col>
                 <Grid.Col span={6}>
@@ -103,14 +110,7 @@ const TitleMetadataSection = ({ data, onUpdate }) => {
                         onBlur={handleDateBlur}
                         ref={dateInputRef}
                     />
-                </Grid.Col>
-                <Grid.Col span={6}>
-                    <TextInput
-                        label="Unique ID"
-                        value={localData.identifier || ""}
-                        onChange={(e) => handleChange("identifier", e.currentTarget.value)}
-                    />
-                </Grid.Col>        
+                </Grid.Col>                
             </Grid>
         </Box>
     );

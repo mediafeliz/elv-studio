@@ -20,11 +20,18 @@ const RatingsSection = ({ data = [], onUpdate }) => {
   const [selected, setSelected] = useState([]);
   const [newEntry, setNewEntry] = useState({ country: "", rating: "", reason: [], system: "" });
 
-  const getCountryOptions = () => Object.keys(filmRatings);
+  const getCountryOptions = () => {
+    const used = new Set(entries.map(e => e.country));
+    return Object.entries(filmRatings)
+      .filter(([code]) => !used.has(code))
+      .map(([code, { name }]) => ({ value: code, label: `${name} (${code})` }));
+  };
+
   const getRatingOptions = (country) => filmRatings[country]?.ratings || [];
   const getReasonOptions = (country) => filmRatings[country]?.reasons || [];
   const isReasonRequired = (country) => filmRatings[country]?.reasons_required;
   const getSystem = (country) => filmRatings[country]?.system || "";
+  const getCountryLabel = (code) => filmRatings[code]?.name ? `${filmRatings[code].name} (${code})` : code;
 
   const handleChange = (field, value) => {
     const updated = { ...newEntry, [field]: value };
@@ -34,6 +41,13 @@ const RatingsSection = ({ data = [], onUpdate }) => {
       updated.system = getSystem(value);
     }
     setNewEntry(updated);
+  };
+
+  const handleLiveEdit = (index, field, value) => {
+    const updated = [...entries];
+    updated[index][field] = value;
+    setEntries(updated);
+    onUpdate(updated);
   };
 
   const addEntry = () => {
@@ -71,8 +85,8 @@ const RatingsSection = ({ data = [], onUpdate }) => {
         <Table.Thead>
           <Table.Tr>
             <Table.Th></Table.Th>
-            <Table.Th>Country</Table.Th>
-            <Table.Th>Rating</Table.Th>
+            <Table.Th style={{ width: "160px" }}>Country</Table.Th>
+            <Table.Th style={{ width: "160px" }}>Rating</Table.Th>
             <Table.Th>Reason</Table.Th>
             <Table.Th>System</Table.Th>
           </Table.Tr>
@@ -86,10 +100,32 @@ const RatingsSection = ({ data = [], onUpdate }) => {
                   onChange={() => toggleSelection(index)}
                 />
               </Table.Td>
-              <Table.Td>{row.country}</Table.Td>
-              <Table.Td>{row.rating}</Table.Td>
-              <Table.Td>{(row.reason || []).join(", ")}</Table.Td>
-              <Table.Td>{row.system}</Table.Td>
+              <Table.Td>{getCountryLabel(row.country)}</Table.Td>
+              <Table.Td>
+                <Select
+                  data={getRatingOptions(row.country)}
+                  value={row.rating}
+                  onChange={(val) => handleLiveEdit(index, "rating", val)}
+                  searchable
+                  disabled={!row.country}
+                />
+              </Table.Td>
+              <Table.Td>
+                <MultiSelect
+                  data={getReasonOptions(row.country)}
+                  value={row.reason || []}
+                  onChange={(val) => handleLiveEdit(index, "reason", val)}
+                  searchable
+                  disabled={!row.country || !isReasonRequired(row.country)}
+                />
+              </Table.Td>
+              <Table.Td>
+                <TextInput
+                  value={row.system}
+                  disabled
+                  readOnly
+                />
+              </Table.Td>
             </Table.Tr>
           ))}
           <Table.Tr>
@@ -108,7 +144,7 @@ const RatingsSection = ({ data = [], onUpdate }) => {
                 data={getRatingOptions(newEntry.country)}
                 value={newEntry.rating}
                 onChange={(val) => handleChange("rating", val)}
-                placeholder="Select rating"
+                placeholder="Rating"
                 searchable
                 disabled={!newEntry.country}
               />

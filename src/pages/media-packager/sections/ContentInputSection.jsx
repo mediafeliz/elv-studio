@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 import { IconFolder, IconUpload, IconDeviceFloppy, IconLoader } from "@tabler/icons-react";
 
-const ContentInputSection = () => {
+const ContentInputSection = ({ onCreatePackage }) => {
     return (
         <Box my="xl">
             <Title order={4} mb="xs" c="blue.7">Content Object Input / Controls</Title>
@@ -34,11 +34,18 @@ const ContentInputSection = () => {
                         style={{ flexGrow: 1 }}
                         defaultValue="/Users/wlmbgm/Documents/2G/AMAZON_MMC/FILM/_DEMO/assets"
                     />
-                    <Button leftSection={<IconLoader size={16} />} variant="default">Load Package</Button>
+                    <Button leftSection={<IconLoader size={16} />} variant="default">
+                        Load Package
+                    </Button>
                 </Group>
 
                 <Group spacing="xs">
-                    <Button leftSection={<IconUpload size={16} />}>Create Package</Button>
+                    <Button
+                        leftSection={<IconUpload size={16} />}
+                        onClick={onCreatePackage}
+                    >
+                        Create Package
+                    </Button>
                     <Button
                         leftSection={<IconDeviceFloppy size={16} />}
                         variant="filled"

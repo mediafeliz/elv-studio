@@ -24,9 +24,14 @@ const MediaPackager = () => {
         setData(prev => ({ ...prev, [section]: value }));
     };
 
+    const logPackage = () => {
+        // eslint-disable-next-line no-console
+        console.log("Generated Package JSON:", JSON.stringify(data, null, 2));
+    };
+
     return (
         <Container size="xl" px="lg" py="xl">
-            <ContentInputSection />
+            <ContentInputSection onCreatePackage={logPackage} />
 
             <Divider my="lg" />
 
